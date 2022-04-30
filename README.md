@@ -133,4 +133,30 @@ I switched the values of <=50K and >50K to 0 and 1 in a new column and then drop
 
 ### More data visuallization
 
+#### Heat Map
+This was done before the one-hot encoding of column becuase it made the heat map hard to read.
+
+`plot = sns.heatmap(df.corr(method='pearson')[['More Than 50K']].sort_values(by='More Than 50K', ascending=False), annot=True)`
+
+![Heatmap](heatmap.png)
+
+It appears that if a person is married or not and education number will be the strongest indicators for if the person make than 50K
+
+
+#### 3D Scatter Polt
+
+I ploted a 3D Scatter plot of Age vs Education Num vs Hours Per Week.
+I used a random sample of 10% of the data for the image so it was a little easier to read. It is still hard to read without the rotation ability of Plotly.
+
+`fig = px.scatter_3d(df.sample(frac=0.1, random_state=1), x='age', y='education-num', z='hours-per-week', color='income')
+fig.update_traces(marker=dict(size=3))
+fig.show(renderer="notebook")`
+
+![3D-plot](3D-plot.png)
+
+Reviewing the plot, it appears that Education Number is the best indication of the 3 that will determine that a person makes more than 50K.
+
+
+
+
 
