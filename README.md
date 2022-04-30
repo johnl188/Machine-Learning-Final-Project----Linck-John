@@ -157,6 +157,52 @@ fig.show(renderer="notebook")`
 Reviewing the plot, it appears that Education Number is the best indication of the 3 that will determine that a person makes more than 50K.
 
 
+## Model Training
+
+#### Scale the data
+
+`y_data = df['More Than 50K']
+x_data = df.drop('More Than 50K', axis=1)
+
+scaler = preprocessing.StandardScaler()
+x_data = scaler.fit_transform(x_data)`
+
+#### Train and Score
+
+Looping throught the percentage to test of 10%, 20%, ... 90%, I trained a Linear Regression Model and a Decision Tree Classifier Model to perdict the More Than 50K column.
+
+`reg = linear_model.LinearRegression()
+reg = reg.fit(x_train, y_train)
+linearResults = np.append(linearResults, reg.score(x_test, y_test))`
+
+`clf = tree.DecisionTreeClassifier()
+clf = clf.fit(x_train, y_train)
+treeResults = np.append(treeResults, clf.score(x_test, y_test))`
+
+Below are the results. I dropped the 90% row becuase the Linear Regression Score was a very large negative number which did not make sense. 
+
+![Results](results.png)
+
+The accuracy scores of the models did not vary too much by test percentage, only by about 3%. It is clear that the Decision Tree Classifier Model is better for prediction in the data set. This makes sense becuase this is a classification problem.
+
+Here is a plot of the accuracy scores by test percentage.
+
+![Result Comparison](resultcomparision.png)
+
+Here is a plot of the residuals plot of the Linear Regression model at 50% test data.
+
+![Residuals](residuals.png)
+
+The plot looks odd because this is a classification problem.
+
+
+#### Decision Tree Results
+
+Here is a visual of the descision tree plot for 50% test data
+
+NEED TO GET THIS
+
+
 
 
 
