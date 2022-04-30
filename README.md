@@ -152,7 +152,7 @@ I used a random sample of 10% of the data for the image so it was a little easie
 fig.update_traces(marker=dict(size=3))
 fig.show(renderer="notebook")`
 
-![3D-plot](3D-plot.png)
+![3D-plot](3D-Plot.png)
 
 Reviewing the plot, it appears that Education Number is the best indication of the 3 that will determine that a person makes more than 50K.
 
@@ -187,7 +187,7 @@ The accuracy scores of the models did not vary too much by test percentage, only
 
 Here is a plot of the accuracy scores by test percentage.
 
-![Result Comparison](resultcomparision.png)
+![Result Comparison](resultcomparison.png)
 
 Here is a plot of the residuals plot of the Linear Regression model at 50% test data.
 
