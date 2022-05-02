@@ -202,6 +202,7 @@ Here is a visual of the descision tree plot for 50% test data. I limited the dep
 
 ![Decision Tree](decisiontree.png)
 
+The feature values are scaled by the Standard Scaler so it is not immediately clear what values are used in the decisions.
 
 
 
