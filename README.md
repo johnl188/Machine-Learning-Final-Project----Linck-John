@@ -198,9 +198,9 @@ The plot looks odd because this is a classification problem.
 
 #### Decision Tree Results
 
-Here is a visual of the descision tree plot for 50% test data
+Here is a visual of the descision tree plot for 50% test data. I limited the depth of the tree to get a better visual. The real tree had many depths and the tree could not be viewed well.
 
-NEED TO GET THIS
+![Decision Tree](decisiontree.png)
 
 
 
