@@ -164,14 +164,12 @@ for num in range(1, 10):
     treeResults = np.append(treeResults, clf.score(x_test, y_test))
 
     # Show Decision Tree Visual for one of the iterations
-    if (num == 5): 
-        print("Hello")
-        fig = plt.figure(figsize=(25,20))
-        plot = tree.plot_tree(clf, 
-                   feature_names=x_columns,  
-                   class_names=y_columns,
-                   filled=True)
-        plt.show
+    # if (num == 5): 
+    #     plot = tree.plot_tree(clf, 
+    #                feature_names=x_columns,  
+    #                class_names=['<=50K', '>50K'],
+    #                filled=True)
+    #     plt.show()
 
 resultDF = pd.DataFrame()
 resultDF['% Test'] = percentages
