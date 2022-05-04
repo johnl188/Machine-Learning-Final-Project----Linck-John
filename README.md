@@ -149,17 +149,18 @@ This relationship may help the model see patterns with occupations that have you
 #### Percentage Married By Age
 
 Count By Age and Married Count By Age get dropped after used for intermediate calucation.
-`
-df['Count By Age'] = df.groupby(by=['age'])['married'].transform('count')
-df['Married Count By Age'] = df.groupby(by=['age', 'married'])['married'].transform('count')
 
-df['Percentage Married By Age'] = df['Married Count By Age'] / df['Count By Age']
+`df['Count By Age'] = df.groupby(by=['age'])['married'].transform('count')`
 
-# Flip single percentage so that it matched married percentage
-mask = df['married'] == 0
+`df['Married Count By Age'] = df.groupby(by=['age', 'married'])['married'].transform('count')`
 
-df.loc[mask, 'Percentage Married By Age'] = df.loc[mask].apply(lambda x: 1 - x['Percentage Married By Age'], axis=1)
-`
+`df['Percentage Married By Age'] = df['Married Count By Age'] / df['Count By Age']`
+
+`\# Flip single percentage so that it matched married percentage`
+
+`mask = df['married'] == 0`
+
+`df.loc[mask, 'Percentage Married By Age'] = df.loc[mask].apply(lambda x: 1 - x['Percentage Married By Age'], axis=1)`
 
 The model could use this data to correlate the chance that a person of a certain age is married to their income.
 
@@ -215,7 +216,7 @@ Below are the results. I dropped the 90% row because the Linear Regression Score
 
 ![Results](results.png)
 
-The accuracy scores of the models did not vary too much by test percentage, only by about 3%. It is clear that the Decision Tree Classifier Model is better for prediction in the data set. This makes sense because this is a classification problem.
+The accuracy scores of the models did not vary too much by test percentage, only by about 3%. It is clear that the Decision Tree Classifier Model is better for prediction in the data set. This makes sense because this is a classification problem which the Decision Tree Classifier Model excels at.
 
 Here is a plot of the accuracy scores by test percentage.
 
