@@ -18,6 +18,7 @@ df = df.drop(['fnlwgt', 'capital-gain', 'capital-loss', 'education'], axis=1)
 
 df = df.loc[df['hours-per-week'] >= 40]
 
+
 # PAIR PLOT
 # plot = sns.pairplot(df, hue="income")
 # plt.show()
@@ -94,8 +95,6 @@ df = df.loc[df['native-country'] == 'United-States']
 # Income
 df['More Than 50K'] = df['income'].map({ '<=50K': 0, '>50K': 1} ).astype(int)
 
-
-
 # HEAT MAP
 # plot = sns.heatmap(df.corr(method='pearson')[['More Than 50K']].sort_values(by='More Than 50K', ascending=False), annot=True)
 # plt.show()
@@ -105,6 +104,24 @@ df['More Than 50K'] = df['income'].map({ '<=50K': 0, '>50K': 1} ).astype(int)
 # fig.update_traces(marker=dict(size=3))
 # fig.show(renderer="notebook")
 
+
+# Add Aggregate Column
+
+df['Median Education Num By Occupation'] = df.groupby(by=['occupation'])['education-num'].transform('median')
+df['Mean Age By Occupation'] = df.groupby(by=['occupation'])['age'].transform('mean')
+
+
+df['Count By Age'] = df.groupby(by=['age'])['married'].transform('count')
+df['Married Count By Age'] = df.groupby(by=['age', 'married'])['married'].transform('count')
+
+df['Percentage Married By Age'] = df['Married Count By Age'] / df['Count By Age']
+
+# Flip single percentage so that it matched married percentage
+mask = df['married'] == 0
+
+df.loc[mask, 'Percentage Married By Age'] = df.loc[mask].apply(lambda x: 1 - x['Percentage Married By Age'], axis=1)
+
+df = df.drop(['Count By Age', 'Married Count By Age'], axis=1)
 
 # One hot encode a few columns
 temp = pd.get_dummies(df['workclass'])
@@ -123,6 +140,9 @@ df = df.drop(['workclass', 'occupation', 'race'], axis=1)
 df = df.drop(['marital-status', 'relationship', 'native-country', 'income'], axis=1)
 
 
+
+
+
 # Model Training
 
 # Get the data and scale it
@@ -131,9 +151,6 @@ x_data = df.drop('More Than 50K', axis=1)
 
 y_columns = ['More Than 50K']
 x_columns = x_data.columns.tolist()
-
-print(y_columns)
-print(x_columns)
 
 scaler = preprocessing.StandardScaler()
 x_data = scaler.fit_transform(x_data)
@@ -159,7 +176,7 @@ for num in range(1, 10):
     #     visual.score(x_test, y_test)
     #     visual.poof()
 
-    clf = tree.DecisionTreeClassifier()
+    clf = tree.DecisionTreeClassifier(max_depth=3)
     clf = clf.fit(x_train, y_train)
     treeResults = np.append(treeResults, clf.score(x_test, y_test))
 
@@ -172,7 +189,7 @@ for num in range(1, 10):
     #     plt.show()
 
 resultDF = pd.DataFrame()
-resultDF['% Test'] = percentages
+resultDF['% Test'] = percentages * 100
 resultDF['Linear Regression Score'] = linearResults
 resultDF['Decision Tree Score'] = treeResults
 
@@ -183,5 +200,3 @@ print(resultDF)
 # plot = sns.lineplot(x='% Test', y='value', hue='variable', 
 #              data=pd.melt(resultDF, ['% Test']))
 # plt.show()
-
-# Decisions Tree
