@@ -130,6 +130,38 @@ I switched the values of <=50K and >50K to 0 and 1 in a new column and then drop
 
 `df['More Than 50K'] = df['income'].map({ '<=50K': 0, '>50K': 1} ).astype(int)`
 
+### Aggregate Columns
+
+#### Median Education Num By Occupation
+
+`df['Median Education Num By Occupation'] = df.groupby(by=['occupation'])['education-num'].transform('median')`
+
+I added this column to help the model see relationships between the a person's occupation and education. This may help prediction because some occupations may require 
+advanced education, but not pay well while the opposite is also true.
+
+#### Mean Age By Occupation
+
+`df['Mean Age By Occupation'] = df.groupby(by=['occupation'])['age'].transform('mean')`
+
+This relationship may help the model see patterns with occupations that have younger or older people doing them.
+
+
+#### Percentage Married By Age
+
+Count By Age and Married Count By Age get dropped after used for intermediate calucation.
+`
+df['Count By Age'] = df.groupby(by=['age'])['married'].transform('count')
+df['Married Count By Age'] = df.groupby(by=['age', 'married'])['married'].transform('count')
+
+df['Percentage Married By Age'] = df['Married Count By Age'] / df['Count By Age']
+
+# Flip single percentage so that it matched married percentage
+mask = df['married'] == 0
+
+df.loc[mask, 'Percentage Married By Age'] = df.loc[mask].apply(lambda x: 1 - x['Percentage Married By Age'], axis=1)
+`
+
+The model could use this data to correlate the chance that a person of a certain age is married to their income.
 
 ### More data Visualization
 
