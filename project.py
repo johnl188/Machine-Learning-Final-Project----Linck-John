@@ -176,7 +176,7 @@ for num in range(1, 10):
     #     visual.score(x_test, y_test)
     #     visual.poof()
 
-    clf = tree.DecisionTreeClassifier(max_depth=3)
+    clf = tree.DecisionTreeClassifier()
     clf = clf.fit(x_train, y_train)
     treeResults = np.append(treeResults, clf.score(x_test, y_test))
 
